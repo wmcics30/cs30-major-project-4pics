@@ -1,6 +1,6 @@
 # Proposal
 
-Put a description of what you're going to do here...
+The game 4 Pics 1 Word, a game where you have four pictures and you need to guess the word which the pictures have in common
 
 ## Needs to have List
 
@@ -9,5 +9,9 @@ Put a description of what you're going to do here...
 
 ## Nice to have List
 
-- extra thing 1
-- extra thing 2
+- point system
+- timer
+- points recieved go down depending on time takes
+- hint 1: add a correct letter
+- add "keyboard" on screen of possible letters and extras
+- hint 2: 
