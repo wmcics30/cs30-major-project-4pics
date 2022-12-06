@@ -8,6 +8,6 @@
     - functions:
         - display() 
             - draw 2x2 grid 
-            - put imgs in 
+            - put imgs in (draw)
             - use nested loop
     
