@@ -4,7 +4,6 @@
     - take in:
         - the four imgs 
         - x, y, -> the corner/centre used when drawing the grid the imgs are in
-            -> set rect mode centre?
     - functions:
         - display() 
             - draw 2x2 grid 
