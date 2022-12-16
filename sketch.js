@@ -18,7 +18,8 @@ class Level {
     this.xPlacement = width/2-width/16;
     this.yPlacement = height/4;
     this.pictureGrid = [];
-    this.board = this.create2dArray();
+    // this.board = this.create2dArray();
+    this.numBlanks = this.keyWord.length;
   }
 
   pictures() {
@@ -33,17 +34,26 @@ class Level {
     console.log(this.pictureGrid);
   }
 
-  create2dArray() {
-    let emptyArray = [];
-    for (let y = 0; y < gridSize; y++) {
-      emptyArray.push([]);
-      for (let x = 0; x < gridSize; x++) {
-        let index = x + y*gridSize;
-        emptyArray[y].push(index);
-      }
-    }
-    return emptyArray;
-  }
+  // maybe need? maybe for if clicking photo to zoom or something?
+  // create2dArray() {
+  //   let emptyArray = [];
+  //   for (let y = 0; y < gridSize; y++) {
+  //     emptyArray.push([]);
+  //     for (let x = 0; x < gridSize; x++) {
+  //       let index = x + y*gridSize;
+  //       emptyArray[y].push(index);
+  //     }
+  //   }
+  //   return emptyArray;
+  // }
+
+  // determine amount of blanks needed based off of key word 
+  // determineBlanks() {
+
+  //   console.log(numBlanks);
+
+
+  // }
 
   display() {
     rectMode(CENTER);
@@ -58,6 +68,10 @@ class Level {
         stroke(30);
         rect(x*cellWidth + this.xPlacement, y*cellHeight + this.yPlacement, cellWidth, cellHeight);
       }
+    }
+
+    for (let i = 0; i < this.numBlanks; i++) {
+      
     }
   }
 }
@@ -88,6 +102,7 @@ function setup() {
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
   level1.display();
+  level1.determineBlanks();
 }
 
 function draw() {
