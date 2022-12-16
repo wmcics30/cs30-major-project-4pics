@@ -5,7 +5,7 @@ Example of simplified version: https://www.coolmathgames.com/0-4-pictures-1-word
 
 ## Needs to have List
 
-- four picture system -> put up the four pictures in a 2x2 grid
+- four picture system -> put up the four pictures in a 2x2 grid ✓
 - number of letter blanks for level word
 - when press key, letter into blank
 - when press backspace letter deletes
