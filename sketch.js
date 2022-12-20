@@ -13,13 +13,12 @@ class Level {
     this.img2 = image2;
     this.img3 = image3;
     this.img4 = image4;
-    // this.xPlacement = width/2-0.5*gridSize*cellWidth;
-    // this.yPlacement = height/4*2 - gridSize*cellWidth;
     this.xPlacement = width/2-width/16;
     this.yPlacement = height/4;
     this.pictureGrid = [];
     // this.board = this.create2dArray();
     this.numBlanks = this.keyWord.length;
+    this.lineSize = cellWidth/4;
   }
 
   pictures() {
@@ -70,8 +69,12 @@ class Level {
       }
     }
 
-    for (let i = 0; i < this.numBlanks; i++) {
-      
+    // if (this.numBlanks > 3) {
+    //   let startP =
+    // }
+    let startP = cellWidth + this.xPlacement;
+    for (let i = 0; i < 2; i++) {
+      line(startP - cellWidth, this.yPlacement + 2*cellHeight, i + this.lineSize + this.xPlacement, this.yPlacement+ 2*cellHeight);
     }
   }
 }
@@ -102,7 +105,7 @@ function setup() {
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
   level1.display();
-  level1.determineBlanks();
+  // level1.determineBlanks();
 }
 
 function draw() {
