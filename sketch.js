@@ -20,7 +20,6 @@ class Level {
     this.numBlanks = this.keyWord.length;
     this.lineSize = cellWidth/4;
     this.startP = this.xPlacement - cellWidth/2;
-    // this.endP = this.startP + 10;
   }
 
   pictures() {
@@ -84,9 +83,6 @@ class Level {
       console.log("line size=" + this.lineSize);
       this.startP += this.lineSize*1.5;
       console.log("startp = " + this.startP);
-      // this.endP += this.startP/2;
-      // console.log("end p = " + this.endP);
-
     }
   }
 }
@@ -98,6 +94,7 @@ class Tile {
 }
 
 let gridSize = 2;
+let blank
 let level1, board, cellWidth, cellHeight;
 let lvl1p1, lvl1p2, lvl1p3, lvl1p4;
 
