@@ -19,7 +19,8 @@ class Level {
     // this.board = this.create2dArray();
     this.numBlanks = this.keyWord.length;
     this.lineSize = cellWidth/4;
-    this.startP;
+    this.startP = this.xPlacement - cellWidth/2;
+    // this.endP = this.startP + 10;
   }
 
   pictures() {
@@ -70,17 +71,22 @@ class Level {
       }
     }
 
-    // if (this.numBlanks > 3) {
-    //   let startP =
-    // }
-    // let startP = cellWidth + this.xPlacement;
-    this.startP = cellWidth + this.xPlacement;
-    for (let i = 0; i < 2; i++) {
-      line(this.startP - cellWidth, this.yPlacement + 2*cellHeight, this.lineSize + this.xPlacement, this.yPlacement+ 2*cellHeight);
-      console.log((i + this.lineSize + this.xPlacement) - (this.startP - cellWidth));
+    if (this.numBlanks === 3) {
+      this.startP = this.xPlacement;
+    }
+    else if (this.numBlanks === 4) {
+      this.startP = this.xPlacement - cellWidth/2;
+    }
+    
+    for (let i = 0; i < this.numBlanks; i++) {
+      line(this.startP, this.yPlacement + cellHeight*2, this.startP + this.lineSize, this.yPlacement + cellHeight*2);
+      console.log(this.startP + this.lineSize - this.startP);
       console.log("line size=" + this.lineSize);
-      this.startP += this.lineSize;
+      this.startP += this.lineSize*1.5;
       console.log("startp = " + this.startP);
+      // this.endP += this.startP/2;
+      // console.log("end p = " + this.endP);
+
     }
   }
 }
