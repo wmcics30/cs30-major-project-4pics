@@ -6,7 +6,8 @@ Example of simplified version: https://www.coolmathgames.com/0-4-pictures-1-word
 ## Needs to have List
 
 - four picture system -> put up the four pictures in a 2x2 grid ✓
-- number of letter blanks for level word
+- number of letter blanks for level word ✓
+    - appear under grid ✓
 - when press key, letter into blank
 - when press backspace letter deletes
 - when press try word/enter key or when blanks full, check if word is correct
