@@ -10,6 +10,8 @@
             - put imgs in (draw)
             - use nested loop
 
+- make a map(?) to store the blank values (start and end) for when putting letter on screen?
+
 - level presets
     - level 1
         - word: ice
