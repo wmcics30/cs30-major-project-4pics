@@ -79,10 +79,14 @@ class Level {
     
     for (let i = 0; i < this.numBlanks; i++) {
       line(this.startP, this.yPlacement + cellHeight*2, this.startP + this.lineSize, this.yPlacement + cellHeight*2);
-      console.log(this.startP + this.lineSize - this.startP);
-      console.log("line size=" + this.lineSize);
+      // console.log(this.startP + this.lineSize - this.startP);
+      // console.log("line size=" + this.lineSize);
       this.startP += this.lineSize*1.5;
       console.log("startp = " + this.startP);
+      let index = i + 1;
+      blankCoordinates.set("blank " + index + " x1", this.startP);
+      blankCoordinates.set("blank " + index + " x2", this.startP + this.lineSize);
+      blankCoordinates.set("y", this.yPlacement + cellHeight*2);
     }
   }
 }
@@ -94,7 +98,8 @@ class Tile {
 }
 
 let gridSize = 2;
-let blank
+let blankCoordinates = new Map();
+let emptyBlanks = true;
 let level1, board, cellWidth, cellHeight;
 let lvl1p1, lvl1p2, lvl1p3, lvl1p4;
 
@@ -108,13 +113,19 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  cellHeight = height/gridSize/3;
-  cellWidth = height/gridSize/3;
+  cellHeight = height/gridSize/2;
+  cellWidth = height/gridSize/2;
   // board = create2dArray(gridSize);
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
   level1.display();
   // level1.determineBlanks();
+  // console.log("blank 1 map x1 test = " + blankCoordinates.get("blank 1 x1"));
+  // console.log("blank 1 map x2 test = " + blankCoordinates.get("blank 1 x2"));
+  // console.log("blank 2 map x1 test = " + blankCoordinates.get("blank 2 x1"));
+  // console.log("blank 2 map x2 test = " + blankCoordinates.get("blank 2 x2"));
+  // console.log("blank 3 map x1 test = " + blankCoordinates.get("blank 3 x1"));
+  // console.log("blank 3map x2 test = " + blankCoordinates.get("blank 3 x2"));
 }
 
 function draw() {
@@ -122,3 +133,12 @@ function draw() {
   
 }
 
+function keyPressed() {
+  textAlign(LEFT, BASELINE);
+  textSize(30);
+  textStyle(BOLD);
+  text
+  if (emptyBlanks) {
+    text(key, blankCoordinates.get("blank 1 x1"), blankCoordinates.get("y"));
+  } 
+}
