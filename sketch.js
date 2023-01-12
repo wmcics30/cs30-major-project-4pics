@@ -99,7 +99,7 @@ let gridSize = 2;
 let blankCoordinates = new Map();
 let typedLetters = [];
 let emptyBlanks = true;
-let level1, board, cellWidth, cellHeight, lineSize, blankAt;
+let level1, board, cellWidth, cellHeight, lineSize, blankAt, keyWord;
 let lvl1p1, lvl1p2, lvl1p3, lvl1p4;
 
 function preload() {
@@ -131,6 +131,7 @@ function setup() {
 
 function draw() {
   // background(220);
+  keyWord = "ice";
 }
 
 function keyPressed() {
@@ -140,7 +141,12 @@ function keyPressed() {
   fill("black");
   // text
   if (keyCode === BACKSPACE && typedLetters.length > 0) {
+    erase();
+    rectMode(CENTER);
+    fill("black");
+    rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")- lineSize/1.5, lineSize+lineSize/2, 60);
     typedLetters.pop();
+    rectMode(CORNER);
   }
   // if (keyCode === ENTER) {
   //   if (wordCorrect()) {
@@ -154,7 +160,7 @@ function keyTyped() {
   textSize(40);
   textStyle(BOLD);
   fill("black");
-  if (emptyBlanks) {
+  if (typedLetters.length < keyWord.length) {
     typedLetters.push(key);
     console.log("blank test = " + blankCoordinates.get(typedLetters.length));
     text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y") - 100, lineSize+lineSize/2, 200);
