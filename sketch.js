@@ -120,13 +120,7 @@ function setup() {
   level1.pictures();
   level1.display();
   // level1.determineBlanks();
-  console.log("blank 1 map x1 test = " + blankCoordinates.get("blank 1 x1"));
-  // console.log("blank 1 map x2 test = " + blankCoordinates.get("blank 1 x2"));
-  // console.log("blank 2 map x1 test = " + blankCoordinates.get("blank 2 x1"));
-  // console.log("blank 2 map x2 test = " + blankCoordinates.get("blank 2 x2"));
-  // console.log("blank 3 map x1 test = " + blankCoordinates.get("blank 3 x1"));
-  // console.log("blank 3map x2 test = " + blankCoordinates.get("blank 3 x2"));
-
+  console.log("blank 1 map x1 test = " + blankCoordinates.get(1));
 }
 
 function draw() {
@@ -143,10 +137,9 @@ function keyPressed() {
   if (keyCode === BACKSPACE && typedLetters.length > 0) {
     erase();
     rectMode(CENTER);
-    fill("black");
     rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")- lineSize/1.5, lineSize+lineSize/2, 60);
     typedLetters.pop();
-    rectMode(CORNER);
+    noErase();
   }
   // if (keyCode === ENTER) {
   //   if (wordCorrect()) {
@@ -163,7 +156,7 @@ function keyTyped() {
   if (typedLetters.length < keyWord.length) {
     typedLetters.push(key);
     console.log("blank test = " + blankCoordinates.get(typedLetters.length));
-    text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y") - 100, lineSize+lineSize/2, 200);
+    text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y") - 103, lineSize+lineSize/2, 200);
   }
 }
 
