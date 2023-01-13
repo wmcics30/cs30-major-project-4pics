@@ -99,6 +99,7 @@ let gridSize = 2;
 let blankCoordinates = new Map();
 let typedLetters = [];
 let emptyBlanks = true;
+let state = "1";
 let level1, board, cellWidth, cellHeight, lineSize, blankAt, keyWord;
 let lvl1p1, lvl1p2, lvl1p3, lvl1p4;
 
@@ -118,14 +119,21 @@ function setup() {
   // board = create2dArray(gridSize);
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
-  level1.display();
+  
   // level1.determineBlanks();
   console.log("blank 1 map x1 test = " + blankCoordinates.get(1));
 }
 
 function draw() {
   // background(220);
-  keyWord = "ice";
+  
+  if (state === "1") {
+    keyWord = "ice";
+    level1.display();
+  }
+  if (state === "2") {
+    keyWord = "sleep";
+  }
 }
 
 function keyPressed() {
@@ -141,11 +149,12 @@ function keyPressed() {
     typedLetters.pop();
     noErase();
   }
-  // if (keyCode === ENTER) {
-  //   if (wordCorrect()) {
-
-  //   }
-  // }
+  if (keyCode === ENTER) {
+    // if (wordCorrect()) {
+    state ++;
+    console.log("state " + state);
+    // }
+  }
 }
 
 function keyTyped() {
@@ -153,7 +162,7 @@ function keyTyped() {
   textSize(40);
   textStyle(BOLD);
   fill("black");
-  if (typedLetters.length < keyWord.length) {
+  if (typedLetters.length < keyWord.length && keyCode !== 13) {
     typedLetters.push(key);
     console.log("blank test = " + blankCoordinates.get(typedLetters.length));
     text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y") - 103, lineSize+lineSize/2, 200);
