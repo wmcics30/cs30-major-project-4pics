@@ -23,6 +23,7 @@
     "globals": {
 
       "erase": true,
+      "noErase": true,
       "width": true,
       "height": true,
       "drawingContext": true,
