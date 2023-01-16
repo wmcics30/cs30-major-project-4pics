@@ -30,7 +30,6 @@ class Level {
     this.pictureGrid.push(tile3);
     let tile4 = new Tile(this.img4);
     this.pictureGrid.push(tile4);
-    console.log(this.pictureGrid);
   }
 
   // maybe need? maybe for if clicking photo to zoom or something?
@@ -62,10 +61,10 @@ class Level {
         let index = x + y*gridSize;
         let tileImage;
         tileImage = this.pictureGrid[index].img;
-        image(tileImage, x*cellWidth + this.xPlacement, y*cellHeight + this.yPlacement, cellWidth, cellHeight);
+        image(tileImage, x*cellWidth + this.xPlacement, y*cellHeight+100 + this.yPlacement, cellWidth, cellHeight);
         noFill();
         stroke(30);
-        rect(x*cellWidth + this.xPlacement, y*cellHeight + this.yPlacement, cellWidth, cellHeight);
+        rect(x*cellWidth + this.xPlacement, y*cellHeight+100 + this.yPlacement, cellWidth, cellHeight);
       }
     }
 
@@ -77,11 +76,9 @@ class Level {
     }
     
     for (let i = 0; i < this.numBlanks; i++) {
-      line(this.startP, this.yPlacement + cellHeight*2, this.startP + lineSize, this.yPlacement + cellHeight*2);
-      // console.log(this.startP + lineSize - this.startP);
-      // console.log("line size=" + lineSize);
+      fill("black");
+      line(this.startP, this.yPlacement + cellHeight*2+100, this.startP + lineSize, this.yPlacement + cellHeight*2+100);
       this.startP += lineSize*1.5;
-      console.log("startp = " + this.startP);
       let index = i + 1;
       blankCoordinates.set(index, this.startP);
       blankCoordinates.set("y", this.yPlacement + cellHeight*2);
@@ -99,15 +96,17 @@ let gridSize = 2;
 let blankCoordinates = new Map();
 let typedLetters = [];
 let emptyBlanks = true;
-let state = "1";
-let level1, board, cellWidth, cellHeight, lineSize, blankAt, keyWord;
-let lvl1p1, lvl1p2, lvl1p3, lvl1p4;
+let state = 1;
+let level1, level2, board, cellWidth, cellHeight, lineSize, blankAt, keyWord;
+let logo, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1;
 
 function preload() {
+  logo = loadImage("photos/4p1w-logo.png");
   lvl1p1 = loadImage("photos/ice1.png");
   lvl1p2 = loadImage("photos/ice2.jpg");
   lvl1p3 = loadImage("photos/ice3.jpg");
   lvl1p4 = loadImage("photos/ice4.jpg");
+  lvl2p1 = loadImage("photos/4p1w-logo.png");
 }
 
 
@@ -119,40 +118,41 @@ function setup() {
   // board = create2dArray(gridSize);
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
+
+  level2 = new Level("sleep", lvl2p1, lvl1p2, lvl1p3, lvl1p4);
+  level2.pictures();
   
   // level1.determineBlanks();
-  console.log("blank 1 map x1 test = " + blankCoordinates.get(1));
+  // console.log("blank 1 map x1 test = " + blankCoordinates.get(1));
 }
 
 function draw() {
-  // background(220);
+  // background("white");
   
-  if (state === "1") {
+  if (state === 1) {
     keyWord = "ice";
     level1.display();
+
   }
-  if (state === "2") {
+  if (state === 2) {
     keyWord = "sleep";
+    level2.display();
   }
 }
 
 function keyPressed() {
-  textAlign(LEFT, BASELINE);
-  textSize(30);
-  textStyle(BOLD);
-  fill("black");
-  // text
+  // fill("black");
   if (keyCode === BACKSPACE && typedLetters.length > 0) {
     erase();
     rectMode(CENTER);
-    rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")- lineSize/1.5, lineSize+lineSize/2, 60);
+    // fill("black");
+    rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
     typedLetters.pop();
     noErase();
   }
   if (keyCode === ENTER) {
     // if (wordCorrect()) {
     state ++;
-    console.log("state " + state);
     // }
   }
 }
@@ -164,11 +164,16 @@ function keyTyped() {
   fill("black");
   if (typedLetters.length < keyWord.length && keyCode !== 13) {
     typedLetters.push(key);
-    console.log("blank test = " + blankCoordinates.get(typedLetters.length));
-    text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y") - 103, lineSize+lineSize/2, 200);
+    // console.log("blank test = " + blankCoordinates.get(typedLetters.length));
+    text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y"), lineSize+lineSize/2, 200);
   }
 }
 
 function wordCorrect() {
 
 }
+
+// function titleScreen() {
+//   if (state )
+// image(logo, width/2-width/11, height/8, logo.width/3, logo.height/3);
+// }
