@@ -22,10 +22,10 @@ Example of simplified version: https://www.coolmathgames.com/0-4-pictures-1-word
     - when get correct
     - when get wrong
     - when screen change (?)
-- level presets:
-    - images
-    - common word answer
-    - number of blanks
+- level presets: ✓
+    - images ✓
+    - common word answer ✓
+    - number of blanks ✓
     - if get to one of the extras: avalible letters on screen
 
 ## Nice to have List
