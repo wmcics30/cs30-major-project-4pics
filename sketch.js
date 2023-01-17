@@ -109,7 +109,7 @@ function preload() {
   lvl1p2 = loadImage("photos/ice2.jpg");
   lvl1p3 = loadImage("photos/ice3.jpg");
   lvl1p4 = loadImage("photos/ice4.jpg");
-  lvl2p1 = loadImage("photos/4p1w-logo.png");
+  lvl2p1 = loadImage("photos/4p1w-logo.png"); // change out for actual img
 }
 
 
@@ -127,15 +127,15 @@ function setup() {
 
   level2 = new Level("sleep", lvl2p1, lvl1p2, lvl1p3, lvl1p4);
   level2.pictures();
-  
-  // level1.determineBlanks();
-  // console.log("blank 1 map x1 test = " + blankCoordinates.get(1));
+
+  // level3 = new Level("root", lvl3p1, lvl3p2, lvl3p3, lvl3p4);
+  // level3.pictures();
+
+  // level4 = new Level("hand", lvl4p1, lvl4p2, lvl4p3, lvl4p4);
+  // level4.pictures();
 }
 
-function draw() {
-  // background("white");
-
-  
+function draw() {  
   if (state === 1) {
     keyWord = "ice";
     level1.display();
@@ -145,10 +145,21 @@ function draw() {
     keyWord = "sleep";
     level2.display();
   }
+  if (state === 3) {
+    keyWord = "root";
+  //   level3.display();
+  }
+  // if (state === 4) {
+  //   keyWord = "hand";
+  //   level4.display();
+  // }
+  // if (state === 5) {
+  //   keyWord = "";
+  //   // end screen
+  // }
 }
 
 function keyPressed() {
-  // fill("black");
   if (keyCode === BACKSPACE && typedLetters.length > 0) {
     erase();
     rectMode(CENTER);
@@ -159,22 +170,22 @@ function keyPressed() {
   }
   if (keyCode === ENTER) {
     if (wordCorrect()) {
-      state ++;
+      state++;
       background("white");
       image(logo, width/2-width/11, height/8, logo.width/3, logo.height/3);
       typedLetters.length = 0;
     }
-    else {
-      // display x
-      erase();
-      for (let i = typedLetters.length; i > 0; i--) {
-        rectMode(CENTER);
-        // fill("black");
-        rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
-        typedLetters.pop();
-      }
-      noErase();
-    }
+    // else {
+    //   // display x (incorrect icon/incorrect)
+    //   erase();
+    //   for (let i = typedLetters.length; i > 0; i--) {
+    //     rectMode(CENTER);
+    //     // fill("black");
+    //     rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
+    //     typedLetters.pop();
+    //   }
+    //   noErase();
+    // }
   }
 }
 
@@ -192,11 +203,9 @@ function keyTyped() {
 
 function wordCorrect() {
   let b = 0;
-  if (state === 1) {
-    for (let i = 0; i < typedLetters.length; i++) {
-      if (typedLetters[i] === keyWord[i]) {
-        b++;
-      }
+  for (let i = 0; i < typedLetters.length; i++) {
+    if (typedLetters[i] === keyWord[i]) {
+      b++;
     }
   }
   
