@@ -119,8 +119,9 @@ function setup() {
   cellWidth = height/gridSize/2;
   lineSize = cellWidth/4;
   // board = create2dArray(gridSize);
-  image(logo, width/2-width/6.5, height/11, logo.width/3, logo.height/3); // slightly off from when enter
+  // image(logo, width/2-width/6.5, height/11, logo.width/3, logo.height/3); // slightly off from when enter
   // image(logo, width/5, height/8, logo.width/3, logo.height/3); // same doesnt work
+  words();
 
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
@@ -172,20 +173,21 @@ function keyPressed() {
     if (wordCorrect()) {
       state++;
       background("white");
-      image(logo, width/2-width/11, height/8, logo.width/3, logo.height/3);
+
+      words();
       typedLetters.length = 0;
     }
-    // else {
-    //   // display x (incorrect icon/incorrect)
-    //   erase();
-    //   for (let i = typedLetters.length; i > 0; i--) {
-    //     rectMode(CENTER);
-    //     // fill("black");
-    //     rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
-    //     typedLetters.pop();
-    //   }
-    //   noErase();
-    // }
+    else {
+      // display x (incorrect icon/incorrect)
+      erase();
+      for (let i = typedLetters.length; i > 0; i--) {
+        rectMode(CENTER);
+        // fill("black");
+        rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
+        typedLetters.pop();
+      }
+      noErase();
+    }
   }
 }
 
@@ -214,7 +216,14 @@ function wordCorrect() {
   }
 }
 
-// function titleScreen() {
-//   if (state )
-// image(logo, width/2-width/11, height/8, logo.width/3, logo.height/3);
-// }
+function words() {
+  imageMode(CENTER);
+  image(logo, width/2-width/11, height/8, logo.width/3, logo.height/3);
+  fill("black");
+  textAlign(LEFT);
+  // textFont()
+  textSize(60);
+  textStyle(BOLD);
+  text("4 Pics", width/2, height/8);
+  text("1 Word", width/2, height/8 +60);
+}
