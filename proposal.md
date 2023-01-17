@@ -10,10 +10,12 @@ Example of simplified version: https://www.coolmathgames.com/0-4-pictures-1-word
     - appear under grid ✓
 - when press key, letter into blank ✓
 - when press backspace letter deletes ✓
-- when press try word/enter key or when blanks full, check if word is correct
+- when press try word/enter key, check if word is correct ✓
     - if correct checkmark appear to indicate correct
-        - move to next level screen
-    - if incorrect, x and go back to being able to type guesses
+        - move to next level screen ✓
+    - if incorrect, 
+        - display x
+        - go back to being able to type guesses ✓
 - background music
 - sound effects 
     - when type letter
