@@ -74,6 +74,9 @@ class Level {
     else if (this.numBlanks === 4) {
       this.startP = this.xPlacement - cellWidth/2;
     }
+    else if (this.numBlanks === 5) {
+      this.startP = this.xPlacement - cellWidth/2.75;
+    }
     
     for (let i = 0; i < this.numBlanks; i++) {
       fill("black");
@@ -137,6 +140,7 @@ function draw() {
   if (state === 2) {
     keyWord = "sleep";
     level2.display();
+    
   }
 }
 
@@ -153,6 +157,8 @@ function keyPressed() {
   if (keyCode === ENTER) {
     // if (wordCorrect()) {
     state ++;
+    background("white");
+    typedLetters.length = 0;
     // }
   }
 }
