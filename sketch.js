@@ -119,6 +119,9 @@ function setup() {
   cellWidth = height/gridSize/2;
   lineSize = cellWidth/4;
   // board = create2dArray(gridSize);
+  image(logo, width/2-width/6.5, height/11, logo.width/3, logo.height/3); // slightly off from when enter
+  // image(logo, width/5, height/8, logo.width/3, logo.height/3); // same doesnt work
+
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
 
@@ -131,6 +134,7 @@ function setup() {
 
 function draw() {
   // background("white");
+
   
   if (state === 1) {
     keyWord = "ice";
@@ -140,7 +144,6 @@ function draw() {
   if (state === 2) {
     keyWord = "sleep";
     level2.display();
-    
   }
 }
 
@@ -155,11 +158,23 @@ function keyPressed() {
     noErase();
   }
   if (keyCode === ENTER) {
-    // if (wordCorrect()) {
-    state ++;
-    background("white");
-    typedLetters.length = 0;
-    // }
+    if (wordCorrect()) {
+      state ++;
+      background("white");
+      image(logo, width/2-width/11, height/8, logo.width/3, logo.height/3);
+      typedLetters.length = 0;
+    }
+    else {
+      // display x
+      erase();
+      for (let i = typedLetters.length; i > 0; i--) {
+        rectMode(CENTER);
+        // fill("black");
+        rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
+        typedLetters.pop();
+      }
+      noErase();
+    }
   }
 }
 
@@ -176,7 +191,18 @@ function keyTyped() {
 }
 
 function wordCorrect() {
-
+  let b = 0;
+  if (state === 1) {
+    for (let i = 0; i < typedLetters.length; i++) {
+      if (typedLetters[i] === keyWord[i]) {
+        b++;
+      }
+    }
+  }
+  
+  if (b === keyWord.length) {
+    return true;
+  }
 }
 
 // function titleScreen() {
