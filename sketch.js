@@ -5,6 +5,13 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
+let gridSize = 2;
+let blankCoordinates = new Map();
+let typedLetters = [];
+let emptyBlanks = true;
+let state = 1;
+let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help;
+let logo, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1;
 
 class Level {
   constructor(keyWord, image1, image2, image3, image4) {
@@ -31,27 +38,6 @@ class Level {
     let tile4 = new Tile(this.img4);
     this.pictureGrid.push(tile4);
   }
-
-  // maybe need? maybe for if clicking photo to zoom or something?
-  // create2dArray() {
-  //   let emptyArray = [];
-  //   for (let y = 0; y < gridSize; y++) {
-  //     emptyArray.push([]);
-  //     for (let x = 0; x < gridSize; x++) {
-  //       let index = x + y*gridSize;
-  //       emptyArray[y].push(index);
-  //     }
-  //   }
-  //   return emptyArray;
-  // }
-
-  // determine amount of blanks needed based off of key word 
-  // determineBlanks() {
-
-  //   console.log(numBlanks);
-
-
-  // }
 
   display() {
     rectMode(CENTER);
@@ -95,13 +81,38 @@ class Tile {
   }
 }
 
-let gridSize = 2;
-let blankCoordinates = new Map();
-let typedLetters = [];
-let emptyBlanks = true;
-let state = 1;
-let level1, level2, board, cellWidth, cellHeight, lineSize, blankAt, keyWord;
-let logo, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1;
+class Button {
+  constructor(x, y, width, height, colour1, colour2) {
+    this.x = x;
+    this.y = y;
+    // this.img = img;
+    this.width = width;
+    this.height = height;
+    // this.width = img.width;
+    // this.height = img.height;
+    this.colour1 = colour1;
+    this.colour2 = colour2;
+  }
+
+  display() {
+    if (this.isInside(mouseX, mouseY)) {
+      fill(this.colour2);
+    }
+    else {
+      fill(this.color);
+    }
+    rect(this.x, this.y, this.width, this.height);
+  }
+
+  isInside(x, y) {
+    let leftSide = this.x;
+    let rightSide = this.x + this.width;
+    let topSide = this.y;
+    let bottomSide = this.y + this.height;
+
+    return x > leftSide && x < rightSide && y > topSide && y < bottomSide;
+  }
+}
 
 function preload() {
   logo = loadImage("photos/4p1w-logo.png");
@@ -118,9 +129,6 @@ function setup() {
   cellHeight = height/gridSize/2;
   cellWidth = height/gridSize/2;
   lineSize = cellWidth/4;
-  // board = create2dArray(gridSize);
-  // image(logo, width/2-width/6.5, height/11, logo.width/3, logo.height/3); // slightly off from when enter
-  // image(logo, width/5, height/8, logo.width/3, logo.height/3); // same doesnt work
   words();
 
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
@@ -134,12 +142,18 @@ function setup() {
 
   // level4 = new Level("hand", lvl4p1, lvl4p2, lvl4p3, lvl4p4);
   // level4.pictures();
+
+  help = new Button(width/5*4, height/7, 80, 80, "red", "green");
 }
 
 function draw() {  
+  // if (state === "0") {
+  //   startScreen();
+  // }
   if (state === 1) {
     keyWord = "ice";
     level1.display();
+    help.display();
 
   }
   if (state === 2) {
@@ -150,14 +164,14 @@ function draw() {
     keyWord = "root";
   //   level3.display();
   }
-  // if (state === 4) {
-  //   keyWord = "hand";
+  if (state === 4) {
+    keyWord = "hand";
   //   level4.display();
-  // }
-  // if (state === 5) {
-  //   keyWord = "";
-  //   // end screen
-  // }
+  }
+  if (state === 5) {
+    // keyWord = "";
+    // end screen
+  }
 }
 
 function keyPressed() {
@@ -221,9 +235,13 @@ function words() {
   image(logo, width/2-width/11, height/8, logo.width/3, logo.height/3);
   fill("black");
   textAlign(LEFT);
-  // textFont()
   textSize(60);
   textStyle(BOLD);
   text("4 Pics", width/2, height/8);
   text("1 Word", width/2, height/8 +60);
 }
+
+// function startScreen() {
+//   textAlign(CENTER);
+
+// }
