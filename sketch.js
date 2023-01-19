@@ -143,7 +143,7 @@ function setup() {
   // level4 = new Level("hand", lvl4p1, lvl4p2, lvl4p3, lvl4p4);
   // level4.pictures();
 
-  help = new Button(width/5*4, height/7, 80, 80, "red", "green");
+  // help = new Button(width/5*4, height/7, 80, 80, "red", "green");
 }
 
 function draw() {  
@@ -153,7 +153,7 @@ function draw() {
   if (state === 1) {
     keyWord = "ice";
     level1.display();
-    help.display();
+    // help.display();
 
   }
   if (state === 2) {
@@ -185,22 +185,15 @@ function keyPressed() {
   }
   if (keyCode === ENTER) {
     if (wordCorrect()) {
-      state++;
-      background("white");
-
-      words();
-      typedLetters.length = 0;
+      fill("green");
+      text("Correct!", width/2 + 80, height/20*19);
+      setTimeout(correct, 800);
     }
     else {
       // display x (incorrect icon/incorrect)
-      erase();
-      for (let i = typedLetters.length; i > 0; i--) {
-        rectMode(CENTER);
-        // fill("black");
-        rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
-        typedLetters.pop();
-      }
-      noErase();
+      fill("red");
+      text("Incorrect!", width/2 + 90, height/20*19);
+      setTimeout(incorrect, 800);
     }
   }
 }
@@ -239,6 +232,26 @@ function words() {
   textStyle(BOLD);
   text("4 Pics", width/2, height/8);
   text("1 Word", width/2, height/8 +60);
+}
+
+function correct() {
+  state++;
+  background("white");
+
+  words();
+  typedLetters.length = 0;
+}
+
+function incorrect() {
+  erase();
+  for (let i = typedLetters.length; i > 0; i--) {
+    rectMode(CENTER);
+    // fill("black");
+    rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 55);
+    typedLetters.pop();
+  }
+  rect(width/2, height/23*21, 200, 50);
+  noErase();
 }
 
 // function startScreen() {
