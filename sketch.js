@@ -11,7 +11,7 @@ let typedLetters = [];
 let emptyBlanks = true;
 let state = 1;
 let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help;
-let logo, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1;
+let logo, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1, lvl2p2, lvl2p3, lvl2p4, lvl3p1, lvl3p2, lvl3p3, lvl3p4, lvl4p1, lvl4p2, lvl4p3, lvl4p4;
 
 class Level {
   constructor(keyWord, image1, image2, image3, image4) {
@@ -29,14 +29,17 @@ class Level {
   }
 
   pictures() {
-    let tile1 = new Tile(this.img1);
-    this.pictureGrid.push(tile1);
-    let tile2 = new Tile(this.img2);
-    this.pictureGrid.push(tile2);
-    let tile3 = new Tile(this.img3); 
-    this.pictureGrid.push(tile3);
-    let tile4 = new Tile(this.img4);
-    this.pictureGrid.push(tile4);
+    while (this.pictureGrid.length < 4) {
+      let tile1 = new Tile(this.img1);
+      this.pictureGrid.push(tile1);
+      let tile2 = new Tile(this.img2);
+      this.pictureGrid.push(tile2);
+      let tile3 = new Tile(this.img3); 
+      this.pictureGrid.push(tile3);
+      let tile4 = new Tile(this.img4);
+      this.pictureGrid.push(tile4);
+      console.log(this.pictureGrid);
+    }
   }
 
   display() {
@@ -58,7 +61,7 @@ class Level {
       this.startP = this.xPlacement;
     }
     else if (this.numBlanks === 4) {
-      this.startP = this.xPlacement - cellWidth/2;
+      this.startP = this.xPlacement - cellWidth/6;
     }
     else if (this.numBlanks === 5) {
       this.startP = this.xPlacement - cellWidth/2.75;
@@ -116,11 +119,26 @@ class Button {
 
 function preload() {
   logo = loadImage("photos/4p1w-logo.png");
+  
   lvl1p1 = loadImage("photos/ice1.png");
   lvl1p2 = loadImage("photos/ice2.jpg");
   lvl1p3 = loadImage("photos/ice3.jpg");
   lvl1p4 = loadImage("photos/ice4.jpg");
-  lvl2p1 = loadImage("photos/4p1w-logo.png"); // change out for actual img
+
+  lvl2p1 = loadImage("photos/sleep1.jpg"); 
+  lvl2p2 = loadImage("photos/sleep2.jpg");
+  lvl2p3 = loadImage("photos/sleep3.jpg");
+  lvl2p4 = loadImage("photos/sleep4.jpg");
+
+  lvl3p1 = loadImage("photos/hand1.jpg");
+  lvl3p2 = loadImage("photos/hand2.png");
+  lvl3p3 = loadImage("photos/hand3.jpg");
+  lvl3p4 = loadImage("photos/hand4.jpg");
+
+  lvl4p1 = loadImage("photos/root1.png");
+  lvl4p2 = loadImage("photos/root2.jpg");
+  lvl4p3 = loadImage("photos/root3.jpg");
+  lvl4p4 = loadImage("photos/root4.png");
 }
 
 
@@ -134,14 +152,14 @@ function setup() {
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
 
-  level2 = new Level("sleep", lvl2p1, lvl1p2, lvl1p3, lvl1p4);
+  level2 = new Level("sleep", lvl2p1, lvl2p2, lvl2p3, lvl2p4);
   level2.pictures();
 
-  // level3 = new Level("root", lvl3p1, lvl3p2, lvl3p3, lvl3p4);
-  // level3.pictures();
+  level3 = new Level("hand", lvl3p1, lvl3p2, lvl3p3, lvl3p4);
+  level3.pictures();
 
-  // level4 = new Level("hand", lvl4p1, lvl4p2, lvl4p3, lvl4p4);
-  // level4.pictures();
+  level4 = new Level("root", lvl4p1, lvl4p2, lvl4p3, lvl4p4);
+  level4.pictures();
 
   // help = new Button(width/5*4, height/7, 80, 80, "red", "green");
 }
@@ -158,19 +176,21 @@ function draw() {
   }
   if (state === 2) {
     keyWord = "sleep";
+    // level2.pictures();
     level2.display();
+
   }
   if (state === 3) {
-    keyWord = "root";
-  //   level3.display();
+    keyWord = "hand";
+    level3.display();
   }
   if (state === 4) {
-    keyWord = "hand";
-  //   level4.display();
+    keyWord = "root";
+    level4.display();
   }
   if (state === 5) {
-    // keyWord = "";
-    // end screen
+    keyWord = "";
+    endScreen();
   }
 }
 
@@ -190,7 +210,6 @@ function keyPressed() {
       setTimeout(correct, 800);
     }
     else {
-      // display x (incorrect icon/incorrect)
       fill("red");
       text("Incorrect!", width/2 + 90, height/20*19);
       setTimeout(incorrect, 800);
@@ -225,13 +244,13 @@ function wordCorrect() {
 
 function words() {
   imageMode(CENTER);
-  image(logo, width/2-width/11, height/8, logo.width/3, logo.height/3);
+  image(logo, width/2-width/12, height/8, logo.width/2, logo.height/2);
   fill("black");
   textAlign(LEFT);
   textSize(60);
   textStyle(BOLD);
-  text("4 Pics", width/2, height/8);
-  text("1 Word", width/2, height/8 +60);
+  text("4 Pics", width/2-40, height/8);
+  text("1 Word", width/2-40, height/8 +60);
 }
 
 function correct() {
@@ -254,7 +273,9 @@ function incorrect() {
   noErase();
 }
 
-// function startScreen() {
-//   textAlign(CENTER);
-
-// }
+function endScreen() {
+  textAlign(CENTER);
+  textSize(40);
+  textStyle(BOLDITALIC);
+  text("Thanks for playing!", width/2, height/2);
+}
