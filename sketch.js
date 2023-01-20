@@ -10,6 +10,7 @@ let blankCoordinates = new Map();
 let typedLetters = [];
 let emptyBlanks = true;
 let state = 1;
+let click = 0;
 let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help;
 let logo, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1, lvl2p2, lvl2p3, lvl2p4, lvl3p1, lvl3p2, lvl3p3, lvl3p4, lvl4p1, lvl4p2, lvl4p3, lvl4p4;
 
@@ -23,7 +24,6 @@ class Level {
     this.xPlacement = width/2-width/16;
     this.yPlacement = height/4;
     this.pictureGrid = [];
-    // this.board = this.create2dArray();
     this.numBlanks = this.keyWord.length;
     this.startP = this.xPlacement - cellWidth/2;
   }
@@ -98,11 +98,12 @@ class Button {
   }
 
   display() {
+    rectMode(CORNER);
     if (this.isInside(mouseX, mouseY)) {
       fill(this.colour2);
     }
     else {
-      fill(this.color);
+      fill(this.colour1);
     }
     rect(this.x, this.y, this.width, this.height);
   }
@@ -161,7 +162,7 @@ function setup() {
   level4 = new Level("root", lvl4p1, lvl4p2, lvl4p3, lvl4p4);
   level4.pictures();
 
-  // help = new Button(width/5*4, height/7, 80, 80, "red", "green");
+  help = new Button(width/5*4, height/7, 80, 80, "red", "blue");
 }
 
 function draw() {  
@@ -171,22 +172,23 @@ function draw() {
   if (state === 1) {
     keyWord = "ice";
     level1.display();
-    // help.display();
+    help.display();
 
   }
   if (state === 2) {
     keyWord = "sleep";
-    // level2.pictures();
     level2.display();
-
+    help.display();
   }
   if (state === 3) {
     keyWord = "hand";
     level3.display();
+    help.display();
   }
   if (state === 4) {
     keyWord = "root";
     level4.display();
+    help.display();
   }
   if (state === 5) {
     keyWord = "";
@@ -218,6 +220,7 @@ function keyPressed() {
 }
 
 function keyTyped() {
+  rectMode(CENTER);
   textAlign(RIGHT, BOTTOM);
   textSize(40);
   textStyle(BOLD);
@@ -226,6 +229,23 @@ function keyTyped() {
     typedLetters.push(key);
     // console.log("blank test = " + blankCoordinates.get(typedLetters.length));
     text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y"), lineSize+lineSize/2, 200);
+  }
+}
+
+function mousePressed() {
+  if (help.isInside(mouseX, mouseY) && click % 2 === 0) {
+    rectMode(CENTER);
+    fill("green");
+    rect(width/6*5, height/2, 400, 400);
+    click++;
+  }
+  else if (help.isInside(mouseX, mouseY) && click % 2 === 1) {
+    erase();
+    rectMode(CENTER);
+    // fill("black");
+    rect(width/6*5, height/2, 420, 400);
+    noErase();
+    click++;
   }
 }
 
