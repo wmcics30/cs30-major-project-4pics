@@ -9,10 +9,10 @@ let gridSize = 2;
 let blankCoordinates = new Map();
 let typedLetters = [];
 let emptyBlanks = true;
-let state = 1;
+let state = 0;
 let click = 0;
-let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help;
-let logo, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1, lvl2p2, lvl2p3, lvl2p4, lvl3p1, lvl3p2, lvl3p3, lvl3p4, lvl4p1, lvl4p2, lvl4p3, lvl4p4;
+let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help, start, how;
+let logo, fire, cloud, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1, lvl2p2, lvl2p3, lvl2p4, lvl3p1, lvl3p2, lvl3p3, lvl3p4, lvl4p1, lvl4p2, lvl4p3, lvl4p4;
 
 class Level {
   constructor(keyWord, image1, image2, image3, image4) {
@@ -85,28 +85,29 @@ class Tile {
 }
 
 class Button {
-  constructor(x, y, width, height, colour1, colour2) {
+  constructor(x, y, width, height) {
     this.x = x;
     this.y = y;
-    // this.img = img;
     this.width = width;
     this.height = height;
-    // this.width = img.width;
-    // this.height = img.height;
-    this.colour1 = colour1;
-    this.colour2 = colour2;
+    // this.img1 = img1;
+    // this.img2 = img2;
   }
 
-  display() {
-    rectMode(CORNER);
-    if (this.isInside(mouseX, mouseY)) {
-      fill(this.colour2);
-    }
-    else {
-      fill(this.colour1);
-    }
-    rect(this.x, this.y, this.width, this.height);
-  }
+  // display() {
+  //   rectMode(CORNER);
+  //   imageMode(CORNER);
+  //   noFill();
+  //   stroke(4);
+    
+  //   if (this.isInside(mouseX, mouseY)) {
+  //     image(this.img1, this.x, this.y, this.width, this.height);
+  //   }
+  //   else {
+  //     image(this.img2, this.x, this.y, this.width, this.height);
+  //   }
+  //   rect(this.x, this.y, this.width, this.height);
+  // }
 
   isInside(x, y) {
     let leftSide = this.x;
@@ -118,8 +119,62 @@ class Button {
   }
 }
 
+class ImgButton extends Button {
+  constructor(x, y, width, height, img1, img2) {
+    super(x, y, width, height);
+    this.img1 = img1;
+    this.img2 = img2;
+  }
+
+  display() {
+    rectMode(CORNER);
+    imageMode(CORNER);
+    noFill();
+    stroke(4);
+    
+    if (!this.isInside(mouseX, mouseY)) {
+      image(this.img1, this.x, this.y, this.width, this.height);
+    }
+    else {
+      image(this.img2, this.x, this.y, this.width, this.height);
+    }
+    rect(this.x, this.y, this.width, this.height);
+  }
+}
+
+class SolidButton extends Button {
+  constructor(x, y, width, height, colour1, colour2, text) {
+    super(x, y, width, height);
+    this.colour1 = colour1;
+    this.colour2 = colour2;
+    this.text = text;
+  }
+
+  display() {
+    rectMode(CORNER);
+    textAlign(CENTER);
+
+    
+    if (!this.isInside(mouseX, mouseY)) {
+      fill(this.colour1);
+    }
+    else {
+      fill(this.colour2);
+    }
+    rect(this.x, this.y, this.width, this.height);
+
+    textSize(35);
+    fill("black");
+    textStyle(BOLDITALIC);
+    text(this.text, this.x + this.width/2, this.y + this.height/3*2);
+  }
+
+}
+
 function preload() {
   logo = loadImage("photos/4p1w-logo.png");
+  fire = loadImage("photos/fire.png");
+  cloud = loadImage("photos/cloud.png");
   
   lvl1p1 = loadImage("photos/ice1.png");
   lvl1p2 = loadImage("photos/ice2.jpg");
@@ -148,7 +203,6 @@ function setup() {
   cellHeight = height/gridSize/2;
   cellWidth = height/gridSize/2;
   lineSize = cellWidth/4;
-  words();
 
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
   level1.pictures();
@@ -162,13 +216,13 @@ function setup() {
   level4 = new Level("root", lvl4p1, lvl4p2, lvl4p3, lvl4p4);
   level4.pictures();
 
-  help = new Button(width/5*4, height/7, 80, 80, "red", "blue");
+  help = new ImgButton(width/5*4, height/7, 80, 80, fire, cloud);
 }
 
 function draw() {  
-  // if (state === "0") {
-  //   startScreen();
-  // }
+  if (state === 0) {
+    startScreen();
+  }
   if (state === 1) {
     keyWord = "ice";
     level1.display();
@@ -197,55 +251,72 @@ function draw() {
 }
 
 function keyPressed() {
-  if (keyCode === BACKSPACE && typedLetters.length > 0) {
-    erase();
-    rectMode(CENTER);
-    // fill("black");
-    rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
-    typedLetters.pop();
-    noErase();
-  }
-  if (keyCode === ENTER) {
-    if (wordCorrect()) {
-      fill("green");
-      text("Correct!", width/2 + 80, height/20*19);
-      setTimeout(correct, 800);
+  if (state > 0 && state < 5) {
+    if (keyCode === BACKSPACE && typedLetters.length > 0) {
+      erase();
+      rectMode(CENTER);
+      // fill("black");
+      rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
+      typedLetters.pop();
+      noErase();
     }
-    else {
-      fill("red");
-      text("Incorrect!", width/2 + 90, height/20*19);
-      setTimeout(incorrect, 800);
+    if (keyCode === ENTER) {
+      if (wordCorrect()) {
+        fill("green");
+        text("Correct!", width/2 + 80, height/20*19);
+        setTimeout(correct, 800);
+      }
+      else {
+        fill("red");
+        text("Incorrect!", width/2 + 90, height/20*19);
+        setTimeout(incorrect, 800);
+      }
     }
   }
 }
 
 function keyTyped() {
-  rectMode(CENTER);
-  textAlign(RIGHT, BOTTOM);
-  textSize(40);
-  textStyle(BOLD);
-  fill("black");
-  if (typedLetters.length < keyWord.length && keyCode !== 13) {
-    typedLetters.push(key);
-    // console.log("blank test = " + blankCoordinates.get(typedLetters.length));
-    text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y"), lineSize+lineSize/2, 200);
+  if (state > 0 && state < 5) {
+    rectMode(CENTER);
+    textAlign(RIGHT, BOTTOM);
+    textSize(40);
+    textStyle(BOLD);
+    fill("black");
+    if (typedLetters.length < keyWord.length && keyCode !== 13) {
+      typedLetters.push(key);
+      // console.log("blank test = " + blankCoordinates.get(typedLetters.length));
+      text(key, blankCoordinates.get(typedLetters.length) - lineSize*1.5, blankCoordinates.get("y")-2, lineSize+lineSize/2, 200);
+    }
   }
 }
 
 function mousePressed() {
   if (help.isInside(mouseX, mouseY) && click % 2 === 0) {
-    rectMode(CENTER);
+    rectMode(CORNER);
     fill("green");
-    rect(width/6*5, height/2, 400, 400);
+    rect(width/5*4 - 125, height/7 + 100, height/2.5, width/4);
     click++;
   }
   else if (help.isInside(mouseX, mouseY) && click % 2 === 1) {
+    fill("black");
     erase();
-    rectMode(CENTER);
-    // fill("black");
-    rect(width/6*5, height/2, 420, 400);
+    rectMode(CORNER);
+    rect(width/5*4 - 125, height/7 + 95, height/2.5+5, width/4+10);
     noErase();
     click++;
+  }
+
+  if (start.isInside(mouseX, mouseY)) {
+    erase();
+    // rectMode(CORNER);
+    fill("black");
+    // rect(width/2-300, height/4*3-2, 250, 74);
+    // rect(width/2+50, height/4*3-2, 250, 74);
+    rectMode(CENTER);
+    rect(width/2, height/2, 620, 800);
+    noErase();
+    state++;
+    words();
   }
 }
 
@@ -282,11 +353,11 @@ function correct() {
 }
 
 function incorrect() {
+  fill("black");
   erase();
+  rectMode(CENTER);
   for (let i = typedLetters.length; i > 0; i--) {
-    rectMode(CENTER);
-    // fill("black");
-    rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 55);
+    rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 57);
     typedLetters.pop();
   }
   rect(width/2, height/23*21, 200, 50);
@@ -297,5 +368,46 @@ function endScreen() {
   textAlign(CENTER);
   textSize(40);
   textStyle(BOLDITALIC);
-  text("Thanks for playing!", width/2, height/2);
+  text("Thanks for playing!", width/2, height/2); 
+}
+
+function startScreen() {
+  imageMode(CENTER);
+  image(logo, width/2, height/2, logo.width, logo.height);
+  textAlign(CENTER);
+  textSize(70);
+  textStyle(BOLD);
+
+  // black shadow
+  fill("black");
+  text("4 Pics", width/2, height/5);
+  fill("red");
+  text("4 ", width/2 - 66.5, height/5);
+  fill("green");
+  text("Pics", width/2 + 35, height/5);
+  fill("black");
+  text("1 Word", width/2, height/5 +80);
+  fill("#489cf3");
+  text("1 ", width/2 - 83, height/5 +80);
+  fill("orange");
+  text("Word", width/2 + 35, height/5 +80);
+
+  // // colour shadow
+  // fill("red");
+  // text("4 ", width/2 - 78, height/5);
+  // fill("green");
+  // text("Pics", width/2 + 25, height/5);
+  // fill("#489cf3");
+  // text("1 ", width/2 - 93, height/5 +80);
+  // fill("orange");
+  // text("Word", width/2 + 25, height/5 +80);
+  // fill("black");
+  // text("4 Pics", width/2, height/5);
+  // text("1 Word", width/2, height/5 +80);
+
+  start = new SolidButton(width/2-300, height/4*3, 250, 70, "purple", "lightblue", "Play");
+  start.display();
+
+  how = new SolidButton(width/2+50, height/4*3, 250, 70, "lightblue", "purple", "Instructions");
+  how.display();
 }
