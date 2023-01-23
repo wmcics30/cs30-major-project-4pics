@@ -351,7 +351,7 @@ function mousePressed() {
       fill("black");
       erase();
       rectMode(CORNER);
-      rect(width / 5 * 4 - 120, height / 7 + 95, 355 + 5, 440 + 10);
+      rect(width / 5 * 4 - 125, height / 7 + 95, 355 + 10, 440 + 10);
       noErase();
       click++;
     }
@@ -438,20 +438,6 @@ function startScreen() {
   text("1 ", width / 2 - 105, height / 6 + 100);
   fill("orange");
   text("Word", width / 2 + 45, height / 6 + 100);
-
-  // // colour shadow
-  // textSize(70)
-  // fill("red");
-  // text("4 ", width/2 - 78, height/6);
-  // fill("green");
-  // text("Pics", width/2 + 25, height/6);
-  // fill("#489cf3");
-  // text("1 ", width/2 - 93, height/6 +80);
-  // fill("orange");
-  // text("Word", width/2 + 25, height/6 +80);
-  // fill("black");
-  // text("4 Pics", width/2, height/6);
-  // text("1 Word", width/2, height/6 +80);
 
   start = new SolidButton(width / 2 - 300, height / 4 * 3, 250, 70, "purple", "lightblue", "Play");
   start.display();
