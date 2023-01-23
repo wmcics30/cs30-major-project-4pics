@@ -11,7 +11,7 @@ let typedLetters = [];
 let emptyBlanks = true;
 let state = 0;
 let click = 0;
-let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help, start, how;
+let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help, start, how, back;
 let logo, fire, cloud, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1, lvl2p2, lvl2p3, lvl2p4, lvl3p1, lvl3p2, lvl3p3, lvl3p4, lvl4p1, lvl4p2, lvl4p3, lvl4p4;
 
 class Level {
@@ -154,7 +154,6 @@ class SolidButton extends Button {
     rectMode(CORNER);
     textAlign(CENTER);
 
-    
     if (!this.isInside(mouseX, mouseY)) {
       fill(this.colour1);
     }
@@ -255,18 +254,20 @@ function keyPressed() {
     if (keyCode === BACKSPACE && typedLetters.length > 0) {
       erase();
       rectMode(CENTER);
-      // fill("black");
+      fill("black");
       rect(blankCoordinates.get(typedLetters.length)- lineSize, blankCoordinates.get("y")+70, lineSize+lineSize/2, 60);
       typedLetters.pop();
       noErase();
     }
     if (keyCode === ENTER) {
       if (wordCorrect()) {
+        textSize(40);
         fill("green");
         text("Correct!", width/2 + 80, height/20*19);
         setTimeout(correct, 800);
       }
       else {
+        textSize(40);
         fill("red");
         text("Incorrect!", width/2 + 90, height/20*19);
         setTimeout(incorrect, 800);
@@ -294,30 +295,39 @@ function mousePressed() {
   if (help.isInside(mouseX, mouseY) && click % 2 === 0) {
     rectMode(CORNER);
     fill("green");
-    rect(width/5*4 - 125, height/7 + 100, height/2.5, width/4);
+    rect(width/5*4 - 120, height/7 + 100, height/2.5, width/4);
+    instrutions();
     click++;
   }
   else if (help.isInside(mouseX, mouseY) && click % 2 === 1) {
     fill("black");
     erase();
     rectMode(CORNER);
-    rect(width/5*4 - 125, height/7 + 95, height/2.5+5, width/4+10);
+    rect(width/5*4 - 120, height/7 + 95, height/2.5+5, width/4+10);
     noErase();
     click++;
   }
 
-  if (start.isInside(mouseX, mouseY)) {
-    erase();
-    // rectMode(CORNER);
-    fill("black");
-    // rect(width/2-300, height/4*3-2, 250, 74);
-    // rect(width/2+50, height/4*3-2, 250, 74);
-    rectMode(CENTER);
-    rect(width/2, height/2, 620, 800);
-    noErase();
-    state++;
+  if (start.isInside(mouseX, mouseY) && state === 0) {
+    background("white");
+
+    state = 1;
     words();
   }
+
+  if (how.isInside(mouseX, mouseY) && state === 0) {
+    background("white");
+
+    state = -1;
+    instrutions();
+    words();
+  }
+
+  if (back.isInside(mouseX, mouseY) && state === -1) {
+    background("white");
+    state = 0;
+  }
+
 }
 
 function wordCorrect() {
@@ -375,39 +385,79 @@ function startScreen() {
   imageMode(CENTER);
   image(logo, width/2, height/2, logo.width, logo.height);
   textAlign(CENTER);
-  textSize(70);
+  textSize(90);
   textStyle(BOLD);
 
   // black shadow
   fill("black");
-  text("4 Pics", width/2, height/5);
+  text("4 Pics", width/2, height/6);
   fill("red");
-  text("4 ", width/2 - 66.5, height/5);
+  text("4 ", width/2 - 85, height/6);
   fill("green");
-  text("Pics", width/2 + 35, height/5);
+  text("Pics", width/2 + 45, height/6);
   fill("black");
-  text("1 Word", width/2, height/5 +80);
+  text("1 Word", width/2, height/6 +100);
   fill("#489cf3");
-  text("1 ", width/2 - 83, height/5 +80);
+  text("1 ", width/2 - 105, height/6 +100);
   fill("orange");
-  text("Word", width/2 + 35, height/5 +80);
+  text("Word", width/2 + 45, height/6 +100);
 
   // // colour shadow
+  // textSize(70)
   // fill("red");
-  // text("4 ", width/2 - 78, height/5);
+  // text("4 ", width/2 - 78, height/6);
   // fill("green");
-  // text("Pics", width/2 + 25, height/5);
+  // text("Pics", width/2 + 25, height/6);
   // fill("#489cf3");
-  // text("1 ", width/2 - 93, height/5 +80);
+  // text("1 ", width/2 - 93, height/6 +80);
   // fill("orange");
-  // text("Word", width/2 + 25, height/5 +80);
+  // text("Word", width/2 + 25, height/6 +80);
   // fill("black");
-  // text("4 Pics", width/2, height/5);
-  // text("1 Word", width/2, height/5 +80);
+  // text("4 Pics", width/2, height/6);
+  // text("1 Word", width/2, height/6 +80);
 
   start = new SolidButton(width/2-300, height/4*3, 250, 70, "purple", "lightblue", "Play");
   start.display();
 
-  how = new SolidButton(width/2+50, height/4*3, 250, 70, "lightblue", "purple", "Instructions");
+  how = new SolidButton(width/2+50, height/4*3, 250, 70, "purple", "lightblue", "Instructions");
   how.display();
+}
+
+function instrutions() {
+  if (state === -1) {
+    back = new SolidButton(width/4, height/4*3, 250, 70, "purple", "lightblue", "Back");
+    back.display();
+
+    textAlign(CENTER);
+    textStyle(BOLDITALIC);
+    textSize(50);
+    text("How to Play", width/2, height/3);
+
+    textAlign(LEFT);
+    textStyle(NORMAL);
+    textSize(30);
+    text("Guess the word in common between four pictures", width/4, height/12*5);
+    text("Type your guess using your keyboard and hit ENTER to see if it's right!", width/4, height/12*6);
+    text("Remove a letter by hitting BACKSPACE", width/4, height/12*7);
+    text("Click the ? if you need a review of the rules during the game!", width/4, height/12*8);
+  }
+
+  if (state > 0 && state < 5) {
+    textAlign(CENTER);
+    textStyle(BOLDITALIC);
+    fill("black");
+    textSize(30);
+    text("How to Play", width/6*5, height/16*5);
+    // rect(width/5*4 - 125, height/7 + 100, height/2.5, width/4)
+    textAlign(CENTER);
+    textStyle(NORMAL);
+    textSize(20);
+    text("Guess the word in common between ", width/6*5, height/16*6);
+    text("four pictures", width/6*5, height/16*6.5);
+    text("Type your guess using your keyboard", width/6*5, height/16*7.5);
+    text("and hit ENTER to see if it's right!", width/6*5, height/16*8);
+    text("Remove a letter by hitting", width/6*5, height/16*9);
+    text("BACKSPACE", width/6*5, height/16*9.5);
+    text("Click the ? again to hide the rules", width/6*5, height/16*10.5);
+  }
 }

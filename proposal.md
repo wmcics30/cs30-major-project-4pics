@@ -5,16 +5,18 @@ Example of simplified version: https://www.coolmathgames.com/0-4-pictures-1-word
 
 ## Needs to have List
 
+- start screen ✓
+- instructions ✓
 - four picture system -> put up the four pictures in a 2x2 grid ✓
 - number of letter blanks for level word ✓
     - appear under grid ✓
 - when press key, letter into blank ✓
 - when press backspace letter deletes ✓
 - when press try word/enter key, check if word is correct ✓
-    - if correct checkmark appear to indicate correct
+    - if correct checkmark appear to indicate correct✓
         - move to next level screen ✓
-    - if incorrect, 
-        - display x
+    - if incorrect, ✓
+        - display x ✓
         - go back to being able to type guesses ✓
 - background music
 - sound effects 
