@@ -9,7 +9,7 @@ let gridSize = 2;
 let blankCoordinates = new Map();
 let typedLetters = [];
 let emptyBlanks = true;
-let state = 5;
+let state = 0;
 let click = 0;
 let mClick = 0;
 let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help, start, how, back, bgroundmusic, mute, volumeimg, mIconY, mIconX;
@@ -343,7 +343,7 @@ function mousePressed() {
     if (help.isInside(mouseX, mouseY) && click % 2 === 0) {
       rectMode(CORNER);
       fill("green");
-      rect(width / 5 * 4 - 120, height / 7 + 100, height / 2.5, width / 4);
+      rect(width/5 * 4 - 120, height/7 + 100, 355, 440);
       instrutions();
       click++;
     }
@@ -351,7 +351,7 @@ function mousePressed() {
       fill("black");
       erase();
       rectMode(CORNER);
-      rect(width / 5 * 4 - 120, height / 7 + 95, height / 2.5 + 5, width / 4 + 10);
+      rect(width / 5 * 4 - 120, height / 7 + 95, 355 + 5, 440 + 10);
       noErase();
       click++;
     }
