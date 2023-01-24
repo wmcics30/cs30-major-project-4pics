@@ -12,7 +12,10 @@ let emptyBlanks = true;
 let state = 0;
 let click = 0;
 let mClick = 0;
-let level1, level2, level3, level4, board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help, start, how, back, bgroundmusic, mute, volumeimg, mIconY, mIconX;
+let endClick = 0;
+let level1, level2, level3, level4;
+let board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help, start, how, back, mute, volumeimg, mIconY, mIconX;
+let bgroundmusic, correctSound, incorrectSound, keySound1, endSound;
 let logo, fire, cloud, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1, lvl2p2, lvl2p3, lvl2p4, lvl3p1, lvl3p2, lvl3p3, lvl3p4, lvl4p1, lvl4p2, lvl4p3, lvl4p4;
 
 class Level {
@@ -158,10 +161,15 @@ class SolidButton extends Button {
 }
 
 function preload() {
+  bgroundmusic = loadSound("photos/LateNightRadio.mp3");
+  correctSound = loadSound("photos/bell.wav");
+  incorrectSound = loadSound("photos/wrong_sound_effect.mp3");
+  keySound1 = loadSound("photos/keypress1.flac");
+  endSound = loadSound("photos/win.ogg");
+
   logo = loadImage("photos/4p1w-logo.png");
   fire = loadImage("photos/fire.png");
   cloud = loadImage("photos/cloud.png");
-  bgroundmusic = loadSound("photos/LateNightRadio.mp3");
   mute = loadImage("photos/mute.png");
   volumeimg = loadImage("photos/volume.png");
 
@@ -196,6 +204,9 @@ function setup() {
   mIconX = width/8*7;
 
   bgroundmusic.setVolume(0.3);
+  incorrectSound.setVolume(0.3);
+  correctSound.setVolume(0.5);
+  keySound1.setVolume(0.5);
   
 
   level1 = new Level("ice", lvl1p1, lvl1p2, lvl1p3, lvl1p4);
@@ -264,12 +275,14 @@ function keyPressed() {
         textSize(40);
         fill("green");
         text("Correct!", width / 2 + 80, height / 20 * 19);
+        correctSound.play();
         setTimeout(correct, 800);
       }
       else {
         textSize(40);
         fill("red");
         text("Incorrect!", width / 2 + 90, height / 20 * 19);
+        incorrectSound.play();
         setTimeout(incorrect, 800);
       }
     }
@@ -285,8 +298,8 @@ function keyTyped() {
     fill("black");
     if (typedLetters.length < keyWord.length && keyCode !== 13) {
       typedLetters.push(key);
-      // console.log("blank test = " + blankCoordinates.get(typedLetters.length));
       text(key, blankCoordinates.get(typedLetters.length) - lineSize * 1.5, blankCoordinates.get("y") - 2, lineSize + lineSize / 2, 200);
+      keySound1.play();
     }
   }
 }
@@ -416,6 +429,11 @@ function endScreen() {
   textStyle(NORMAL);
   text("Late Night Radio Kevin MacLeod (incompetech.com) Licensed under Creative Commons:", width/2, height/8*7.25);
   text("By Attribution 4.0 License http://creativecommons.org/licenses/by/4.0/", width/2, height/8*7.5);
+  endClick++;
+  bgroundmusic.pause();
+  if (endClick === 1) {
+    endSound.play();
+  }
 }
 
 function startScreen() {
@@ -451,7 +469,7 @@ function musicIcon() {
   if (!bgroundmusic.isPlaying()) {
     image(mute, mIconX, mIconY, 80, 80);
   }
-  if (state > 0 && state < 5) {
+  if (state > 0 && state < 6) {
     if (bgroundmusic.isPlaying()) {
       erase();
       rectMode(CORNER);
