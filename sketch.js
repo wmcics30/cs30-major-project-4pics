@@ -13,10 +13,11 @@ let state = 0;
 let click = 0;
 let mClick = 0;
 let endClick = 0;
-let level1, level2, level3, level4;
+let level1, level2, level3, level4, level5, level6, level7, level8, level9;
 let board, cellWidth, cellHeight, lineSize, blankAt, keyWord, help, start, how, back, mute, volumeimg, mIconY, mIconX;
 let bgroundmusic, correctSound, incorrectSound, keySound1, endSound;
 let logo, fire, cloud, lvl1p1, lvl1p2, lvl1p3, lvl1p4, lvl2p1, lvl2p2, lvl2p3, lvl2p4, lvl3p1, lvl3p2, lvl3p3, lvl3p4, lvl4p1, lvl4p2, lvl4p3, lvl4p4;
+let lvl5p1, lvl5p2, lvl5p3, lvl5p4, lvl6p1, lvl6p2, lvl6p3, lvl6p4, lvl7p1, lvl7p2, lvl7p3, lvl7p4, lvl8p1, lvl8p2, lvl8p3, lvl8p4, lvl9p1, lvl9p2, lvl9p3, lvl9p4; 
 
 class Level {
   constructor(keyWord, image1, image2, image3, image4) {
@@ -192,6 +193,31 @@ function preload() {
   lvl4p2 = loadImage("photos/root2.jpg");
   lvl4p3 = loadImage("photos/root3.jpg");
   lvl4p4 = loadImage("photos/root4.png");
+
+  lvl5p1 = loadImage("photos/blue1.jpg");
+  lvl5p2 = loadImage("photos/blue2.png");
+  lvl5p3 = loadImage("photos/blue3.jpg");
+  lvl5p4 = loadImage("photos/blue4.png");
+
+  lvl6p1 = loadImage("photos/grain1.jpg");
+  lvl6p2 = loadImage("photos/grain2.PNG");
+  lvl6p3 = loadImage("photos/grain3.jpg");
+  lvl6p4 = loadImage("photos/grain4.jpg");
+
+  lvl7p1 = loadImage("photos/album1.JPG");
+  lvl7p2 = loadImage("photos/album2.jpg");
+  lvl7p3 = loadImage("photos/album3.png");
+  lvl7p4 = loadImage("photos/album4.png");
+
+  lvl8p1 = loadImage("photos/spray1.png");
+  lvl8p2 = loadImage("photos/spray2.jpg");
+  lvl8p3 = loadImage("photos/spray3.png");
+  lvl8p4 = loadImage("photos/spray4.png");
+
+  lvl9p1 = loadImage("photos/opera1.png");
+  lvl9p2 = loadImage("photos/opera2.png");
+  lvl9p3 = loadImage("photos/opera3.png");
+  lvl9p4 = loadImage("photos/opera4.png");
 }
 
 
@@ -220,6 +246,21 @@ function setup() {
 
   level4 = new Level("root", lvl4p1, lvl4p2, lvl4p3, lvl4p4);
   level4.pictures();
+
+  level5 = new Level("blue", lvl5p1, lvl5p2, lvl5p3, lvl5p4);
+  level5.pictures();
+
+  level6 = new Level("grain", lvl6p1, lvl6p2, lvl6p3, lvl6p4);
+  level6.pictures();
+
+  level7 = new Level("album", lvl7p1, lvl7p2, lvl7p3, lvl7p4);
+  level7.pictures();
+
+  level8 = new Level("spray", lvl8p1, lvl8p2, lvl8p3, lvl8p4);
+  level8.pictures();
+
+  level9 = new Level("opera", lvl9p1, lvl9p2, lvl9p3, lvl9p4);
+  level9.pictures();
 
   help = new ImgButton(width / 5 * 4, height / 7, 80, 80, fire, cloud, "yes");
 }
@@ -254,6 +295,36 @@ function draw() {
     musicIcon();
   }
   if (state === 5) {
+    keyWord = "blue";
+    level5.display();
+    help.display();
+    musicIcon();
+  }
+  if (state === 6) {
+    keyWord = "grain";
+    level6.display();
+    help.display();
+    musicIcon();
+  }
+  if (state === 7) {
+    keyWord = "album";
+    level7.display();
+    help.display();
+    musicIcon();
+  }
+  if (state === 8) {
+    keyWord = "spray";
+    level8.display();
+    help.display();
+    musicIcon();
+  }
+  if (state === 9) {
+    keyWord = "opera";
+    level9.display();
+    help.display();
+    musicIcon();
+  }
+  if (state === 10) {
     keyWord = "";
     endScreen();
     musicIcon();
@@ -261,7 +332,7 @@ function draw() {
 }
 
 function keyPressed() {
-  if (state > 0 && state < 5) {
+  if (state > 0 && state < 10) {
     if (keyCode === BACKSPACE && typedLetters.length > 0) {
       erase();
       rectMode(CENTER);
@@ -290,7 +361,7 @@ function keyPressed() {
 }
 
 function keyTyped() {
-  if (state > 0 && state < 5) {
+  if (state > 0 && state < 10) {
     rectMode(CENTER);
     textAlign(RIGHT, BOTTOM);
     textSize(40);
@@ -352,7 +423,7 @@ function mousePressed() {
     }
   }
   
-  if (state > 0 && state < 5) {
+  if (state > 0 && state < 10) {
     if (help.isInside(mouseX, mouseY) && click % 2 === 0) {
       rectMode(CORNER);
       fill("green");
@@ -506,7 +577,7 @@ function instrutions() {
     text("Click the ? if you need a review of the rules during the game!", width / 4, height / 12 * 8);
   }
 
-  if (state > 0 && state < 5) {
+  if (state > 0 && state < 10) {
     textAlign(CENTER);
     textStyle(BOLDITALIC);
     fill("black");
