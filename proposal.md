@@ -19,9 +19,9 @@ Example of simplified version: https://www.coolmathgames.com/0-4-pictures-1-word
         - display x ✓
         - go back to being able to type guesses ✓
 - background music ✓
-- sound effects (?)
-    - when get correct
-    - when get wrong
+- sound effects (?) ✓
+    - when get correct ✓
+    - when get wrong ✓
 - level presets: ✓
     - images ✓
     - common word answer ✓
